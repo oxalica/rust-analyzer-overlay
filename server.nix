@@ -9,14 +9,12 @@ lib.makeOverridable ({ rustcSrc, useJemalloc, doCheck, buildType }: let
 
     inherit src version cargoSha256 doCheck buildType;
 
-    patches = [ ./rustc-src-path.patch ];
-
     nativeBuildInputs = if doCheck then [ rustcSrc ] else [];
 
     cargoBuildFlags = lib.optional useJemalloc "--features jemalloc";
 
     preCheck = ''
-      export RUSTC_SRC_PATH="${rustcSrc}"
+      export RUST_SRC_PATH="${rustcSrc}"
     '';
   };
 
@@ -28,7 +26,7 @@ in runCommand "rust-analyzer-${unwrapped.version}" {
 } ''
   for file in ${unwrapped}/bin/*; do
     makeWrapper "$file" "$out/bin/$(basename "$file")" \
-      --set RUSTC_SRC_PATH "${rustcSrc}"
+      --set RUST_SRC_PATH "${rustcSrc}"
   done
 '') {
   rustcSrc = rustPlatform.rustcSrc;

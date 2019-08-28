@@ -1,9 +1,9 @@
 self: super:
 
 let
-  rev = "b1b6a90ab168c3d04038a28a3c02c69a507a3f52";
-  sha256 = "1f1148cj755v0xc3x41nlbhsz4j8f6h4rvzbw718ziw8rr6q1qxk";
-  cargoSha256 = "19hpysddb98isi2k94qzvl8sa0lhgmgajvdxw9lhk7973h5n8ydc";
+  rev = "5a99184967c89992df4544d0c1ca27d79946a1a7";
+  sha256 = "1pn2zbsjjw9lrrk1am534xs502w6imrqz8z8p1h25446wl0v21ii";
+  cargoSha256 = "0dj4xgqxsz3jnm9lwlm50qwq1zxjp75ggxgqv6g036szlhs3f8hw";
 
   extName = "ra-lsp";
   extVersion = "0.0.1";
@@ -25,6 +25,7 @@ in {
   vscode-extensions = self.lib.recursiveUpdate super.vscode-extensions {
     "${extPublisher}".${extName} = self.callPackage ./extension.nix {
       inherit version extName extVersion extPublisher;
+      inherit (self.pkgs) rust-analyzer;
       src = "${src}/editors/code";
     };
   };
