@@ -93,11 +93,11 @@ function gen_extension_lock() {
      $ext_publisher != "null" && $ext_name != "null" && $ext_version != "null" ]]
 
   echo "Generating extension lock nix" >&2
-  pushd $ext_lock_dir
+  pushd $ext_lock_dir >/dev/null
   node2nix --development --nodejs-10 \
     --input "$ext_dir/package.json" \
-    --lock "$ext_dir/package-lock.json"
-  popd
+    --lock "$ext_dir/package-lock.json" >/dev/null
+  popd >/dev/null
   echo "Generated" >&2
 
   echo "$ext_publisher;$ext_name;$ext_version"
@@ -144,12 +144,13 @@ function main() {
   if [[ "$rev" == "$new_rev" ]]; then
     echo "Already the latest" >&2
   else
+    rev="$new_rev"
 
     echo "Prefetching..." >&2
     read sha256 < <(prefetch_hash "$rev")
     echo "sha256: $sha256" >&2
 
-    IFS=";" read ext_publisher ext_name ext_version <(gen_extension_lock "$sha256")
+    IFS=";" read ext_publisher ext_name ext_version < <(gen_extension_lock "$sha256")
 
     sed --in-place \
       -e "s/rev = \".*\"/rev = \"$rev\"/" \
