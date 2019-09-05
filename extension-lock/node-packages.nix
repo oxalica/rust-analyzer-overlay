@@ -1800,7 +1800,7 @@ let
     name = "ra-lsp";
     packageName = "ra-lsp";
     version = "0.0.1";
-    src = ../../../../../../../nix/store/n77lkw81520acnllvr5hjqjwd6n5ll66-source/editors/code;
+
     dependencies = [
       sources."@babel/code-frame-7.5.5"
       sources."@babel/highlight-7.5.0"

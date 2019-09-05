@@ -1,0 +1,12 @@
+diff --git a/node_modules/vsce/out/validation.js b/node_modules/vsce/out/validation.js
+index 3b15958..c58f8c9 100644
+--- a/node_modules/vsce/out/validation.js
++++ b/node_modules/vsce/out/validation.js
+@@ -43,6 +43,7 @@ exports.validateEngineCompatibility = validateEngineCompatibility;
+  * User shouldn't use a newer version of @types/vscode than the one specified in engines.vscode
+  */
+ function validateVSCodeTypesCompatibility(engineVersion, typeVersion) {
++    return;
+     if (engineVersion === '*') {
+         return;
+     }

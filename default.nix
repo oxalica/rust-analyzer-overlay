@@ -1,9 +1,9 @@
 self: super:
 
 let
-  rev = "5a99184967c89992df4544d0c1ca27d79946a1a7";
-  sha256 = "1pn2zbsjjw9lrrk1am534xs502w6imrqz8z8p1h25446wl0v21ii";
-  cargoSha256 = "0dj4xgqxsz3jnm9lwlm50qwq1zxjp75ggxgqv6g036szlhs3f8hw";
+  rev = "419eec3d2f3db71ce317d08342b59abd764dd324";
+  sha256 = "1kgbk4ryz86d6yg2lf5irf61dgvxs2z4xi73njda3ir3p70s8af8";
+  cargoSha256 = "1dkwwxr2flmdlcsd2fmkr4z1vk1jikbgwp0bflnwrxpmbj4gkpr9";
 
   extName = "ra-lsp";
   extVersion = "0.0.1";
@@ -26,7 +26,7 @@ in {
     "${extPublisher}".${extName} = self.callPackage ./extension.nix {
       inherit version extName extVersion extPublisher;
       inherit (self.pkgs) rust-analyzer;
-      src = "${src}/editors/code";
+      src = "${self.pkgs.rust-analyzer.src}/editors/code";
     };
   };
 }

@@ -19,14 +19,14 @@ lib.makeOverridable ({ rustcSrc, useJemalloc, doCheck, buildType }: let
   };
 
 in runCommand "rust-analyzer-${unwrapped.version}" {
-  inherit (unwrapped) version;
+  inherit (unwrapped) version src;
 
   nativeBuildInputs = [ makeWrapper ];
   buildInputs = [ unwrapped rustcSrc ];
 } ''
-  for file in ${unwrapped}/bin/*; do
-    makeWrapper "$file" "$out/bin/$(basename "$file")" \
-      --set RUST_SRC_PATH "${rustcSrc}"
+  for name in ra_cli ra_lsp_server ra_tools website-gen; do
+    makeWrapper "${unwrapped}/bin/$name" "$out/bin/$name" \
+      --set-default RUST_SRC_PATH "${rustcSrc}"
   done
 '') {
   rustcSrc = rustPlatform.rustcSrc;

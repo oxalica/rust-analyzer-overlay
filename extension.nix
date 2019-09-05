@@ -1,4 +1,4 @@
-{ lib, vscode, vscode-utils, jq, rust-analyzer
+{ lib, vscode-utils, jq, rust-analyzer
 , version, src, extName, extPublisher, extVersion
 }:
 
@@ -9,21 +9,22 @@ let
 
     outputs = [ "out" "vsix" ];
 
-    nativeBuildInputs = [ vscode jq ];
+    nativeBuildInputs = [ jq ];
     buildInputs = [ rust-analyzer ];
 
     npmFlags = "--ignore-scripts";
 
+    # `node2nix` generated file locks dependencies, which will fail version checking.
     postInstall = ''
       jq '.contributes.configuration.properties."rust-analyzer.raLspServerPath".default = $s' \
         --arg s "${rust-analyzer}/bin/ra_lsp_server" \
         package.json >package.json.tmp
       mv -f package.json.tmp package.json
 
-      cp "${vscode}/lib/vscode/resources/app/out/vs/vscode.d.ts" ./node_modules/vscode
-      npm run package
+      patch -p1 <${./no-version-check.patch}
+
       mkdir -p $vsix/share
-      mv ${extName}-${extVersion}.vsix $vsix/share/${extName}.vsix.zip
+      $(npm bin)/vsce package -o $vsix/share/${extName}.vsix.zip
     '';
   };
 
