@@ -16,6 +16,7 @@ fi
 
 repo_owner="rust-analyzer"
 repo_name="rust-analyzer"
+repo_branch="master"
 
 cargo_sha_placeholder="0000000000000000000000000000000000000000000000000000"
 
@@ -60,9 +61,9 @@ function bump() {
   fi
   
   if [[ -z $new_rev ]]; then
-    echo "Fetching master..." >&2
+    echo "Fetching branch '$repo_branch'..." >&2
     new_rev=$(
-      curl "https://api.github.com/repos/$repo_owner/$repo_name/branches/master" |
+      curl "https://api.github.com/repos/$repo_owner/$repo_name/branches/$repo_branch" |
       jq '.commit.sha' --raw-output
     )
     [[ $new_rev ]]
@@ -87,7 +88,9 @@ function bump() {
   sed --in-place "$nix_file" \
     -e "s/rev = \".*\"/rev = \"$rev\"/" \
     -e "s/sha256 = \".*\"/sha256 = \"$sha256\"/" \
-    -e "s/cargoSha256 = \".*\"/cargoSha256 = \"$cargo_sha_placeholder\"/"
+    -e "s/cargoSha256 = \".*\"/cargoSha256 = \"$cargo_sha_placeholder\"/" \
+    -e "s/owner = \".*\"/owner = \"$repo_owner\"/" \
+    -e "s/repo_name = \".*\"/repo_name = \"$repo_name\"/"
 
   echo "Updated hashes and placeholder" >&2
 }
