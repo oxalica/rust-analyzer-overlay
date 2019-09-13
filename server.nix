@@ -1,8 +1,13 @@
 { lib, rustPlatform, makeWrapper, runCommand
 , src, version, cargoSha256
+, rustcSrc ? rustPlatform.rustcSrc
+, rustcSrcCheck ? rustcSrc
+, buildType ? "release"
+, doCheck ? false
+, useJemalloc ? false
 }:
 
-lib.makeOverridable ({ src, rustcSrc, useJemalloc, doCheck, buildType, rustcSrcCheck ? rustcSrc }: let
+let
   unwrapped = rustPlatform.buildRustPackage {
     pname = "rust-analyzer-unwrapped";
 
@@ -23,17 +28,12 @@ in runCommand "rust-analyzer-${unwrapped.version}" {
   inherit (unwrapped) version src;
 
   nativeBuildInputs = [ makeWrapper ];
-  buildInputs = [ unwrapped rustcSrc ];
+  buildInputs = [ unwrapped ] ++ lib.optional (rustcSrc != null) rustcSrc;
 } ''
   for name in ra_cli ra_lsp_server ra_tools website-gen; do
     makeWrapper "${unwrapped}/bin/$name" "$out/bin/$name" ${lib.optionalString (rustcSrc != null) ''
       --set-default RUST_SRC_PATH "${rustcSrc}"
     ''}
   done
-'') {
-  inherit src;
-  rustcSrc = rustPlatform.rustcSrc;
-  useJemalloc = false;
-  doCheck = false;
-  buildType = "release";
-}
+''
+

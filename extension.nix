@@ -1,5 +1,6 @@
-{ lib, vscode-utils, jq, rust-analyzer
+{ lib, vscode-utils, jq
 , version, src, extName, extPublisher, extVersion
+, rust-analyzer # Set to null to use default global rust-analyzer
 }:
 
 let 
@@ -16,10 +17,12 @@ let
 
     # `node2nix` generated file locks dependencies, which will fail version checking.
     postInstall = ''
-      jq '.contributes.configuration.properties."rust-analyzer.raLspServerPath".default = $s' \
-        --arg s "${rust-analyzer}/bin/ra_lsp_server" \
-        package.json >package.json.tmp
-      mv -f package.json.tmp package.json
+      ${lib.optionalString (rust-analyzer != null) ''
+        jq '.contributes.configuration.properties."rust-analyzer.raLspServerPath".default = $s' \
+          --arg s "${rust-analyzer}/bin/ra_lsp_server" \
+          package.json >package.json.tmp
+        mv -f package.json.tmp package.json
+      ''}
 
       patch -p1 <${./no-version-check.patch}
 
