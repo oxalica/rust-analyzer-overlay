@@ -1,4 +1,5 @@
 [._]*.swp
 *.bak*
 result
+result-*
 
