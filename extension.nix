@@ -11,7 +11,7 @@ let
     outputs = [ "out" "vsix" ];
 
     nativeBuildInputs = [ jq ];
-    buildInputs = [ rust-analyzer ];
+    buildInputs =  lib.optional (rust-analyzer != null) rust-analyzer;
 
     npmFlags = "--ignore-scripts";
 
@@ -25,9 +25,8 @@ let
       ''}
 
       patch -p1 <${./no-version-check.patch}
-
       mkdir -p $vsix/share/vscode/extensions
-      $(npm bin)/vsce package -o $vsix/share/vscode/extensions/${extPublisher}.${extName}.vsix
+      $(npm bin)/vsce package -o $vsix/share/vscode/extensions/${extPublisher}.${extName}.zip
     '';
   };
 
@@ -35,13 +34,9 @@ in vscode-utils.buildVscodeExtension {
   name = "${extPublisher}-${extName}-${version}";
   inherit version;
 
-  nativeBuildInputs = [ unzip ];
+  src = "${vsixPackage.vsix}/share/vscode/extensions/${extPublisher}.${extName}.zip";
 
-  src = "${vsixPackage.vsix}/share/vscode/extensions/${extPublisher}.${extName}.vsix";
-
-  unpackPhase = ''
-    unzip $src
-  '';
+  buildInputs =  lib.optional (rust-analyzer != null) rust-analyzer;
 
   vscodeExtUniqueId = "${extPublisher}.${extName}";
 
