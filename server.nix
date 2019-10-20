@@ -30,7 +30,7 @@ in runCommand "rust-analyzer-${unwrapped.version}" {
   nativeBuildInputs = [ makeWrapper ];
   buildInputs = [ unwrapped ] ++ lib.optional (rustcSrc != null) rustcSrc;
 } ''
-  for name in ra_cli ra_lsp_server ra_tools website-gen; do
+  for name in ra_cli ra_lsp_server xtask; do
     makeWrapper "${unwrapped}/bin/$name" "$out/bin/$name" ${lib.optionalString (rustcSrc != null) ''
       --set-default RUST_SRC_PATH "${rustcSrc}"
     ''}
