@@ -1,9 +1,9 @@
 self: super:
 
 let
-  rev = "38f2bd21fbecf1c997a4ab9a8913e8b5487088e3";
-  sha256 = "1qf123lbpzg6g3zh1v6ir24ybi26g6zrhz5w1iqwf1420dkgwkip";
-  cargoSha256 = "0psq134j8frbp2axhlkq37gx5ri75d0633mp774agpm1zdzszap3";
+  rev = "d0357fc3b270d5b05665395b95958ac2a3d1c51a";
+  sha256 = "1zi81qpicr6c0k4y22waw1fqcl524w131rf6fpa2w4l733v160i3";
+  cargoSha256 = "1bzgs6v6bly2ackfq2li98w0cb61r3858hrfvd6icd98h6bapvf2";
 
   extName = "ra-lsp";
   extVersion = "0.0.1";
