@@ -1,12 +1,12 @@
 self: super:
 
 let
-  rev = "08c6933104baca84fd4135a76cdc7daf60a0c631";
-  sha256 = "0wjlp115jgmc2s01aggdk77i96xkwggfbg1rsl92d7l952j0fga9";
-  cargoSha256 = "0cghcmkhqwfxs1xcj7m0vv4wwqmff6s12jdh1bhar27x45v52slh";
+  rev = "8a4c248c48ad7bb9ad556717ee013129c190dbfa";
+  sha256 = "0g0sqg215ab55qp9p9n0bsqc3f01gjapg41hmc724siwc61vvgaq";
+  cargoSha256 = "0hdj1nnj5phjnmiq87bz2i8wbq70c2g8kkqjb8yssnrmx15780g7";
 
-  extName = "ra-lsp";
-  extVersion = "0.0.1";
+  extName = "rust-analyzer";
+  extVersion = "0.1.0";
   extPublisher = "matklad";
 
   version = "git-${rev}";
