@@ -1,9 +1,9 @@
 self: super:
 
 let
-  rev = "8a4c248c48ad7bb9ad556717ee013129c190dbfa";
-  sha256 = "0g0sqg215ab55qp9p9n0bsqc3f01gjapg41hmc724siwc61vvgaq";
-  cargoSha256 = "0hdj1nnj5phjnmiq87bz2i8wbq70c2g8kkqjb8yssnrmx15780g7";
+  rev = "d92a15c1637860a669970142abe37d1daf5f2c73";
+  sha256 = "1l078yz2gb2k3961kik4cnlwigpdnalhl6pzwrjdad0hf5nd9mxs";
+  cargoSha256 = "0lnv7pakiizxswfbzmgyi9vwxn4bny4hyfwxxskk2q9nyvv354m9";
 
   extName = "rust-analyzer";
   extVersion = "0.1.0";
